@@ -1,0 +1,11 @@
+{
+  "name": "shop",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "serve . -l 4173"
+  },
+  "devDependencies": {
+    "serve": "^14.2.0"
+  }
+}
