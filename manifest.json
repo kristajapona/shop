@@ -1,0 +1,16 @@
+{
+  "name": "Grocery Cart",
+  "short_name": "Grocer",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f5f7fb",
+  "theme_color": "#2563eb",
+  "description": "A mobile-friendly grocery list and receipt app",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
