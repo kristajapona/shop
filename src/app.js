@@ -1,6 +1,7 @@
 const catalogEl = document.getElementById('catalog');
 const cartListEl = document.getElementById('cartList');
 const receiptEl = document.getElementById('receipt');
+const floatingTotalEl = document.getElementById('floatingTotal');
 const itemNameEl = document.getElementById('itemName');
 const itemPriceEl = document.getElementById('itemPrice');
 const itemCategoryEl = document.getElementById('itemCategory');
@@ -8,7 +9,17 @@ const newCategoryEl = document.getElementById('newCategory');
 const addBtn = document.getElementById('addBtn');
 const clearBtn = document.getElementById('clearBtn');
 
-const CATEGORY_OPTIONS = ['Dairy', 'Canned Goods', 'Others'];
+const CATEGORY_OPTIONS = [
+  'DAIRY',
+  'CANNED GOODS',
+  'SNACKS & BREAD',
+  'DRINKS',
+  'PASTA',
+  'CONDIMENTS',
+  'HOUSEHOLD',
+  'PERSONAL CARE',
+  'OTHERS'
+];
 let catalog = [];
 let cart = [];
 
@@ -18,15 +29,41 @@ function formatCurrency(value) {
 
 function createDefaultCatalog() {
   return [
-    { name: 'Milk', price: 95, category: 'Dairy' },
-    { name: 'Eggs', price: 120, category: 'Dairy' },
-    { name: 'Cheese', price: 180, category: 'Dairy' },
-    { name: 'Tuna', price: 65, category: 'Canned Goods' },
-    { name: 'Beans', price: 55, category: 'Canned Goods' },
-    { name: 'Soup', price: 70, category: 'Canned Goods' },
-    { name: 'Bread', price: 45, category: 'Others' },
-    { name: 'Rice', price: 60, category: 'Others' },
-    { name: 'Apples', price: 90, category: 'Others' }
+    { name: 'egg 1 tray s', price: 106, category: 'DAIRY' },
+    { name: 'eden 45g', price: 16.50, category: 'DAIRY' },
+    { name: 'holiday spicy beef loaf', price: 24.25, category: 'CANNED GOODS' },
+    { name: 'century tuna spicy', price: 38.05, category: 'CANNED GOODS' },
+    { name: 'pure foods corned beef hot', price: 86.55, category: 'CANNED GOODS' },
+    { name: 'holiday vienna sausage', price: 27, category: 'CANNED GOODS' },
+    { name: 'choco mucho s/w', price: 72.90, category: 'SNACKS & BREAD' },
+    { name: 'eggnog 1pack', price: 61.75, category: 'SNACKS & BREAD' },
+    { name: 'bingo orange', price: 61.50, category: 'SNACKS & BREAD' },
+    { name: 'butter coconut 24x12 19g', price: 39.70, category: 'SNACKS & BREAD' },
+    { name: 'nuebake 560g', price: 82, category: 'SNACKS & BREAD' },
+    { name: 'skyflakes 30x20 25g', price: 56.50, category: 'SNACKS & BREAD' },
+    { name: 'alaska  300g', price: 88.75, category: 'DRINKS' },
+    { name: 'tang pineapple 19g', price: 18.75, category: 'DRINKS' },
+    { name: 'lucky me hot', price: 11.75, category: 'PASTA' },
+    { name: 'chili mansi', price: 11.75, category: 'PASTA' },
+    { name: 'spicy labuyo', price: 10.25, category: 'PASTA' },
+    { name: 'baked mac', price: 24.95, category: 'PASTA' },
+    { name: 'oats 200g', price: 40.90, category: 'PASTA' },
+    { name: 'soy sauce 200ml', price: 10.55, category: 'CONDIMENTS' },
+    { name: 'oyster sauce 30g', price: 6.05, category: 'CONDIMENTS' },
+    { name: 'mafran 190g', price: 8.65, category: 'CONDIMENTS' },
+    { name: 'mushroom 100g', price: 21.55, category: 'CONDIMENTS' },
+    { name: 'pepper (green) 40g', price: 42.90, category: 'CONDIMENTS' },
+    { name: 'all purp cream 250g', price: 69.75, category: 'CONDIMENTS' },
+    { name: 'salt 250g', price: 9.45, category: 'CONDIMENTS' },
+    { name: 'smart paste', price: 23.75, category: 'HOUSEHOLD' },
+    { name: 'zonrox 100ml', price: 9.30, category: 'HOUSEHOLD' },
+    { name: 'bioderm 60g', price: 15.90, category: 'PERSONAL CARE' },
+    { name: 'skinwhite lotion 200ml', price: 147.10, category: 'PERSONAL CARE' },
+    { name: 'dove bar pink 135g', price: 78.80, category: 'PERSONAL CARE' },
+    { name: 'safeguard pw 60g', price: 21, category: 'PERSONAL CARE' },
+    { name: 'gillette pink', price: 48.90, category: 'PERSONAL CARE' },
+    { name: 'sulfur w/ moist. 135g', price: 20.95, category: 'PERSONAL CARE' },
+    { name: 'safeguard camellia 55g', price: 20.95, category: 'PERSONAL CARE' }
   ];
 }
 
@@ -131,9 +168,23 @@ function renderCart() {
   totalRow.className = 'row total';
   totalRow.innerHTML = `<span>Total due</span><span>${formatCurrency(subtotal)}</span>`;
   receiptEl.appendChild(totalRow);
+
+  if (floatingTotalEl) {
+    floatingTotalEl.innerHTML = `
+      <div class="row"><span><strong>Shopping total</strong></span><span><strong>${formatCurrency(subtotal)}</strong></span></div>
+    `;
+  }
+}
+
+function renderCategoryOptions() {
+  if (!itemCategoryEl) return;
+  itemCategoryEl.innerHTML = CATEGORY_OPTIONS.map((category) => `
+    <option value="${category}">${category}</option>
+  `).join('');
 }
 
 function render() {
+  renderCategoryOptions();
   renderCatalog();
   renderCart();
 }
@@ -160,7 +211,7 @@ function addCustomItem() {
   itemNameEl.value = '';
   itemPriceEl.value = '';
   newCategoryEl.value = '';
-  itemCategoryEl.value = 'Dairy';
+  itemCategoryEl.value = CATEGORY_OPTIONS[0] || '';
   itemNameEl.focus();
   saveState();
   render();
